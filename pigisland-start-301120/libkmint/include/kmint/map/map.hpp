@@ -24,6 +24,8 @@ struct map_node_info {
     grassland, or desert or water.
   */
   char kind;
+  float f_cost, g_cost, h_cost;
+  int x, y, parent_x, parent_y;
 };
 
 using map_graph = kmint::graph::basic_graph<map_node_info>;

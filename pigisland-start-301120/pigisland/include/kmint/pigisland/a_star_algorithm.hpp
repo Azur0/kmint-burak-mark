@@ -6,12 +6,8 @@
 namespace kmint {
 	namespace pigisland {
 
-		bool getShortestPath(map::map_graph const &map,
-			std::vector<std::pair<const graph::basic_node<map::map_node_info>&, const graph::basic_node<map::map_node_info>&>> const& routes);
-		bool isValid(map::map_graph const& map, int x, int y);
-		bool isDestination(graph::basic_node<map::map_node_info>& source, graph::basic_node<map::map_node_info>& target);
-		float calculateHeuristic(graph::basic_node<map::map_node_info>& source, graph::basic_node<map::map_node_info>& target);
-		
+		std::vector<map::map_node> getShortestPath(map::map_graph const& map, std::vector<std::pair<const map::map_node&, const map::map_node&>> const& routes);
+		float calculateHeuristic(const map::map_node& source, const map::map_node& target);
 	}
 }
 

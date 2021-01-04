@@ -21,14 +21,14 @@ namespace kmint {
 
 				std::cout << damage << "\n";
 				
-				std::vector<std::pair<const graph::basic_node<map::map_node_info>&, const graph::basic_node<map::map_node_info>&>> routes;
+				std::vector<std::pair<const map::map_node&, const map::map_node&>> routes;
 
-				const graph::basic_node<map::map_node_info>& boat = node();
-				const graph::basic_node<map::map_node_info>& moor = find_random_mooring_place(map().graph());
+				const map::map_node& boat = node();
+				const map::map_node& moor = find_random_mooring_place(map().graph());
 				
 				routes.emplace_back(boat, moor);
 				
-				bool x = kmint::pigisland::getShortestPath(map().graph(), routes);
+				auto x = getShortestPath(map().graph(), routes);
 				
 				// pick random edge
 				int next_index = random_int(0, node().num_edges());
