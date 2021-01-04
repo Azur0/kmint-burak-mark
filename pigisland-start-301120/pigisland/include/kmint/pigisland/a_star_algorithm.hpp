@@ -6,7 +6,8 @@
 namespace kmint {
 	namespace pigisland {
 
-		static bool getShortestPath(map::map_graph const &map, std::vector<map::map_node&, map::map_node&> const& routes);
+		bool getShortestPath(map::map_graph const &map,
+			std::vector<std::pair<const graph::basic_node<map::map_node_info>&, const graph::basic_node<map::map_node_info>&>> const& routes);
 		
 	}
 }
