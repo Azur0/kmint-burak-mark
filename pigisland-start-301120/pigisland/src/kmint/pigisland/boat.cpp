@@ -10,7 +10,6 @@ namespace kmint {
 			: play::map_bound_actor{ initial_node },
 			drawable_{ *this, graphics::image{boat_image()} } {}
 
-
 		void boat::act(delta_time dt)
 		{
 		    t_passed_ += dt;
@@ -28,7 +27,7 @@ namespace kmint {
 				
 				routes.emplace_back(boat, moor);
 				
-				auto x = getShortestPath(map().graph(), routes);
+				auto x = aStarSearch(map().graph(), routes);
 				
 				// pick random edge
 				int next_index = random_int(0, node().num_edges());
@@ -36,6 +35,5 @@ namespace kmint {
 				t_passed_ = from_seconds(0);
 			}
 		}
-
 	} // namespace pigisland
 } // namespace kmint
