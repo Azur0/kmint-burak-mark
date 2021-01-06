@@ -7,7 +7,7 @@ namespace kmint {
     namespace pigisland {
 
     	// Approximation Heuristics - Manhattan Distance
-        std::vector<map::map_node> getShortestPath(map::map_graph const& map, std::vector<std::pair<const map::map_node&, const map::map_node&>> const& routes)
+        std::vector<map::map_node> aStarSearch(map::map_graph const& map, std::vector<std::pair<const map::map_node&, const map::map_node&>> const& routes)
         {
             std::vector<map::map_node> empty;
         	

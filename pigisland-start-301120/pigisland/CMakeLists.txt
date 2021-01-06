@@ -18,7 +18,14 @@ add_executable(pigisland
   src/kmint/pigisland/shark.cpp
   src/kmint/pigisland/boat.cpp
   src/kmint/pigisland/pig.cpp
-  src/kmint/pigisland/a_star_algorithm.cpp)
+  src/kmint/pigisland/a_star_algorithm.cpp
+  src/kmint/pigisland/boat/boat_state_roaming.cpp
+  src/kmint/pigisland/boat/boat_state_docking.cpp
+  src/kmint/pigisland/shark/shark_state_roaming.cpp 
+  src/kmint/pigisland/shark/shark_state_hunting.cpp 
+  src/kmint/pigisland/shark/shark_state_fleeing.cpp
+  src/kmint/pigisland/shark/shark_state_resting.cpp
+  src/kmint/pigisland/contexts/state_context.cpp)
 
 target_compile_features(pigisland PUBLIC cxx_std_17)
 target_link_libraries(pigisland PRIVATE kmint)

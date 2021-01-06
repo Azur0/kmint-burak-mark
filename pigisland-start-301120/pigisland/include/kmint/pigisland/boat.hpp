@@ -4,6 +4,7 @@
 #include "kmint/map/map.hpp"
 #include "kmint/play.hpp"
 #include "kmint/primitives.hpp"
+#include "contexts/state_context.hpp"
 
 namespace kmint {
 	namespace pigisland {
@@ -19,6 +20,12 @@ namespace kmint {
 			// geeft de lengte van een zijde van de collision box van deze actor terug.
 			// Belangrijk voor collision detection
 			scalar collision_range() const override { return 16.0; }
+
+			int getDamage() const { return damage; }
+			void increaseDamage() { increaseDamage(1); }
+			void decreaseDamage() { decreaseDamage(1); }
+			void increaseDamage(int amount) { damage += amount; }
+			void decreaseDamage(int amount) { damage -= amount; }
 			
 		private:
 			// hoeveel tijd is verstreken sinds de laatste beweging
@@ -27,7 +34,7 @@ namespace kmint {
 			play::image_drawable drawable_;
 
 			int damage = 0;
-			bool isInvulnerable = false;
+			StateContext stateContext;
 		};
 
 	} // namespace pigisland
