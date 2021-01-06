@@ -23,6 +23,8 @@ namespace kmint {
                 const map::map_node& source = it->first;
                 const map::map_node& target = it->second;
                 bool closed[MAP_WIDTH][MAP_HEIGHT];
+
+            	// source.node_info().f_cost
             }
 
             return empty;
