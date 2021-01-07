@@ -25,18 +25,17 @@ struct map_node_info {
   */
   char kind;
 
-  float f_cost = 0;
-  float g_cost = 0;
-  float h_cost = 0;
-  float parent_x = -1;
-  float parent_y = -1;
+  float g_cost = FLT_MAX;
+  float h_cost = FLT_MAX;
+  float f_cost() { return g_cost + h_cost; };
+  float t_cost() { return f_cost() + weight; }
+  float weight = 1;
+  kmint::graph::basic_node<map_node_info>* parent;
+  float x;
+  float y;
 
-  bool operator ==(const map_node_info& info)
-  {
-    return kind == info.kind && f_cost == info.f_cost && 
-           g_cost == info.g_cost && h_cost == info.h_cost && 
-           parent_x == info.parent_x && parent_y == info.parent_y;
-  }
+  bool operator<(map_node_info& info) { return f_cost() < info.f_cost(); }
+  bool operator>(map_node_info& info) { return f_cost() > info.f_cost(); }
 };
 
 using map_graph = kmint::graph::basic_graph<map_node_info>;

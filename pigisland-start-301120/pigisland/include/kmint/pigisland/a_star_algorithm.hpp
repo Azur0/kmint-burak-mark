@@ -6,10 +6,11 @@
 namespace kmint {
 	namespace pigisland {
 
-		std::vector<map::map_node> aStarSearch(map::map_graph const& map, std::vector<std::pair<const map::map_node&, const map::map_node&>> const& routes);
-		float calculateHeuristic(const map::map_node& source, const map::map_node& target);
-		bool isValid(map::map_graph const& map, float x, float y);
-		bool isDestination(const map::map_node& source, const map::map_node& target);
+		std::vector<map::map_node*> aStarSearch(map::map_graph& map, std::vector<std::pair<map::map_node&, map::map_node&>> const& routes, const std::vector<char>& walkableLayers);
+		std::vector<map::map_node*> retracePath(const map::map_node& source, map::map_node& target);
+		float getDistance(const map::map_node& source, const map::map_node& target);
+		bool isValid(const map::map_graph& map, float x, float y, const std::vector<char>& walkableLayers);
+		bool isDestination(const map::map_node& source, const int x, const int y);
 	}
 }
 

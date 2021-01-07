@@ -75,11 +75,7 @@ public:
     return *edges_[index];
   }
   edge_type &operator[](std::size_t index) noexcept { return *edges_[index]; }
-
-  bool operator ==(const basic_node node)
-  {
-    return node_id_ == node.node_id();
-  }
+  bool operator==(const basic_node &node) { return node_id() == node.node_id(); }
 
   std::size_t num_edges() const noexcept { return edges_.size(); }
   std::size_t node_id() const noexcept { return node_id_; }

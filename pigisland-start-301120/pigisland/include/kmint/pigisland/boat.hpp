@@ -37,6 +37,7 @@ namespace kmint {
 			
 			int damage = 0;
 			StateContext stateContext;
+			map::map_graph& graph;
 		};
 
 	} // namespace pigisland

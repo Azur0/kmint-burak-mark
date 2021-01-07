@@ -94,30 +94,38 @@ public:
   const_iterator end() const;
 
   template <typename T>
-  std::unique_ptr<T> getActor()
+  std::unique_ptr<T>* getActor()
   {
-    for (auto actor : actors_)
+    for (std::unique_ptr<kmint::play::actor>& actor_ : actors_)
     {
-        if(auto conv = std::dynamic_pointer_cast<T>(actor)) {
-            return conv;
-        }
+        try {
+            if (dynamic_cast<T*>(actor_.get())) {
+                std::unique_ptr<T> *conv = (std::unique_ptr<T> *)&actor_;
+                return conv;
+            }
+        } catch (...) { }
     }
     return nullptr;
   }
 
-  template <typename T>
-  std::vector<std::unique_ptr<T>> getActors()
-  {
-    std::vector<std::unique_ptr<T>> res;
 
-    for (auto actor : actors_)
+
+template <typename T>
+std::vector<std::unique_ptr<T>*> getActors()
+{
+    std::vector<std::unique_ptr<T>*> res;
+
+    for (std::unique_ptr<kmint::play::actor>& actor_ : actors_)
     {
-      if(auto conv = std::dynamic_pointer_cast<T>(actor)) {
-        res.push_back(conv);
-      }
+        try {
+            if (dynamic_cast<T *>(actor_.get())) {
+                std::unique_ptr<T> *conv = (std::unique_ptr<T> *)&actor_;
+                res.push_back(conv);
+            }
+        } catch (...) { }
     }
     return res;
-  }
+}
 private:
   void check_interactions();
   math::size size_;
