@@ -33,28 +33,10 @@ namespace kmint {
                 }
 
             	//// Closed / open list
-                //bool closed[MAP_WIDTH][MAP_HEIGHT];
                 std::vector<map::map_node*> open;
                 std::vector<map::map_node*> closed_;
+                open.push_back(&source);
 
-            	// Initialize starting values of map nodes
-                //int i = 0;
-                //for(auto& node : map)
-                //{
-                //    map::map_node* pNode = &node;
-                //    const int x = pNode->location().x() / MAP_WIDTH;
-                //    const int y = pNode->location().y() / MAP_HEIGHT;
-
-                //    closed[x][y] = false;
-
-                //    // Initialize start node position
-                //	if(node == source)
-                //	{
-                //        pNode->node_info().parent = pNode;
-                //        open.push_back(pNode);
-                //	}
-                //    i++;
-                //}
                 int x = 0;
             	while(!open.empty())
             	{
@@ -63,13 +45,15 @@ namespace kmint {
             		for(int i = 1; i < open.size(); i++)
             		{
                         map::map_node& otherNode = *open.at(i);
-            			if(otherNode.node_info().f_cost() < currentNode->node_info().f_cost() || otherNode.node_info().f_cost() == currentNode->node_info().f_cost() /*&& otherNode.node_info().h_cost < currentNode->node_info().h_cost*/)
-            			{
-                            currentNode = open.at(i);
+            			if(otherNode.node_info().f_cost() < currentNode->node_info().f_cost() || otherNode.node_info().f_cost() == currentNode->node_info().f_cost())
+                            if(otherNode.node_info().h_cost < currentNode->node_info().h_cost) {
+                            {
+                                currentNode = open.at(i);
+                            }
             			}
             		}
 
-                    open.pop_back();
+                    open.erase(open.begin());
                     closed_.push_back(currentNode);
 
             		// Found path
@@ -81,7 +65,7 @@ namespace kmint {
                                 weight += node->node_info().t_cost();
                             });
                         found_paths.push_back(std::make_pair(found_path, weight));
-                        continue;
+                        break;
                     }
 
                     for (auto it = currentNode->begin(); it != currentNode->end(); ++it) {

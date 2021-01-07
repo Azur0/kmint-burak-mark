@@ -27,8 +27,10 @@ namespace kmint {
 
 				map::map_node& boat = node();
 				std::unique_ptr<shark>* shark_actor = stage.getActor<shark>();
-				routes.push_back(std::pair<map::map_node&, map::map_node&>(boat, shark_actor->get()->node()));
 				std::vector<std::unique_ptr<Dock>*> docks = stage.getActors<Dock>();
+				for (auto dockie : docks) {
+					routes.push_back(std::pair<map::map_node&, map::map_node&>(boat, dockie->get()->node()));
+				}
 				auto x = aStarSearch(graph, routes, {'W', 'R', 'K', '1', '2', '3'});
 				
 				// pick random edge

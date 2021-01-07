@@ -25,8 +25,8 @@ struct map_node_info {
   */
   char kind;
 
-  float g_cost = FLT_MAX;
-  float h_cost = FLT_MAX;
+  float g_cost;
+  float h_cost;
   float f_cost() { return g_cost + h_cost; };
   float t_cost() { return f_cost() + weight; }
   float weight = 1;
