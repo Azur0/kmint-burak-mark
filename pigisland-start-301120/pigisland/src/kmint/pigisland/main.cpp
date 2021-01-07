@@ -31,8 +31,8 @@ int main() {
   auto &graph = map.graph();
   s.build_actor<play::background>(math::size(1024, 768), graphics::image{map.background_image()});
   s.build_actor<play::map_actor>(math::vector2d{0.f, 0.f}, map.graph());
-  s.build_actor<pigisland::boat>(graph, pigisland::find_node_of_kind(graph, 'B'));          // Bootvarken
-  s.build_actor<pigisland::shark>(graph, pigisland::find_node_of_kind(graph, 'K'));         // Haai
+  s.build_actor<pigisland::boat>(s, graph, pigisland::find_node_of_kind(graph, 'B'));          // Bootvarken
+  s.build_actor<pigisland::shark>(s, graph, pigisland::find_node_of_kind(graph, 'K'));         // Haai
 	
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '1'), 30, 50);  // Graaneiland
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '2'), 20, 100); // Graseiland
@@ -40,7 +40,7 @@ int main() {
 
   auto locs = pigisland::random_pig_locations(100);
   for (auto loc : locs) {
-    s.build_actor<pigisland::pig>(loc);
+    s.build_actor<pigisland::pig>(s, loc);
   }
 
   // Maak een event_source aan (hieruit kun je alle events halen, zoals

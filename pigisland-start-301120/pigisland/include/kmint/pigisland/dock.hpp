@@ -21,6 +21,8 @@ namespace kmint {
 			
 			void setMaximumHeal(int amount) { maxHeal = amount; }
 			int getMaximumHeal() { return maxHeal; }
+
+			play::stage& stage;
 			
 		private:
 			play::image_drawable drawable_;

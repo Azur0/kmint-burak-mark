@@ -10,9 +10,10 @@ namespace pigisland {
 
 class pig : public play::free_roaming_actor {
 public:
-  pig(math::vector2d location);
+  pig(play::stage& s, math::vector2d location);
   const ui::drawable &drawable() const override { return drawable_; }
 
+  play::stage& stage;
 
 private:
   play::image_drawable drawable_;

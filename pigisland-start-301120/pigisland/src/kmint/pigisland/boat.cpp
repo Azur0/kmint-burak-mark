@@ -8,7 +8,7 @@
 namespace kmint {
 	namespace pigisland {
 		
-		boat::boat(map::map_graph& g, map::map_node& initial_node) : play::map_bound_actor{ initial_node }, drawable_{ *this, graphics::image{boat_image()} }
+		boat::boat(play::stage& s, map::map_graph& g, map::map_node& initial_node) : play::map_bound_actor{ initial_node }, drawable_{ *this, graphics::image{boat_image()} }, stage(s)
 		{
 			std::unique_ptr<BoatStateRoaming> state = std::make_unique<BoatStateRoaming>(this->stateContext, *this);
 			this->stateContext.changeState(std::move(state));

@@ -7,6 +7,9 @@ namespace kmint {
     namespace pigisland {
 
     	// Approximation Heuristics - Manhattan Distance
+        // G cost = distance from start node
+		// H cost (heuristic) = distance from end node
+		// F cost = G cost + H cost
         std::vector<map::map_node> aStarSearch(map::map_graph const& map, std::vector<std::pair<const map::map_node&, const map::map_node&>> const& routes)
         {
             std::vector<map::map_node> empty;
@@ -14,17 +17,38 @@ namespace kmint {
             const int MAP_HEIGHT = 24;
             const int MAP_WIDTH = 32;
         	
-            for (auto it = routes.begin(); it != routes.end(); ++it)
+            for (const auto& route : routes)
             {
-                // G cost = distance from start node
-                // H cost (heuristic) = distance from end node
-                // F cost = G cost + H cost
+                std::vector<map::map_node> tempMap;
 
-                const map::map_node& source = it->first;
-                const map::map_node& target = it->second;
+                for (auto& node : map)
+                {
+                    tempMap.push_back(node);
+                }
+            	
+                const map::map_node& source = route.first;
+                const map::map_node& target = route.second;
+
+            	// Closed / Open list
                 bool closed[MAP_WIDTH][MAP_HEIGHT];
+                std::vector<map::map_node> open;
 
-            	// source.node_info().f_cost
+            	// Initialize starting values of map nodes
+                for(auto& node : tempMap)
+                {
+                    const int x = node.location().x();
+                    const int y = node.location().y();
+
+                    closed[x][y] = false;
+
+                	if(node == source)
+                	{
+                        node.node_info().parent_x = node.location().x();
+                        node.node_info().parent_y = node.location().y();
+
+                        open.push_back(node);
+                	}
+                }
             }
 
             return empty;
@@ -32,9 +56,37 @@ namespace kmint {
     	
     	float calculateHeuristic(const map::map_node& source, const map::map_node& target)
         {
-            const float heuristic = abs(source.location().x() - target.location().x()) + abs(source.location().y() - target.location().y());
+            const float heuristic = abs(source.location().x() - target.location().x()) +
+									abs(source.location().y() - target.location().y());
         	
             return heuristic;
+        }
+
+    	bool isValid(map::map_graph const& map, float x, float y)
+        {
+	        for(const auto& node : map)
+	        {
+		        if(node.node_info().kind == 'L' || node.node_info().kind == 'S')
+		        {
+			        if(node.location().x() == x && node.location().y() == y)
+			        {
+                        return false;
+			        }
+		        }
+	        }
+
+            return true;
+        }
+
+        bool isDestination(const map::map_node& source, const map::map_node& target)
+        {
+        	if(source.location().x() == target.location().x() &&
+                source.location().y() == target.location().y())
+        	{
+                return true;
+        	}
+
+            return false;
         }
     } // namespace pigisland
 } // namespace kmint

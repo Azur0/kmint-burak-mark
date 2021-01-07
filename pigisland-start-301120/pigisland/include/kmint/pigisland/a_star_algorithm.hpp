@@ -8,6 +8,8 @@ namespace kmint {
 
 		std::vector<map::map_node> aStarSearch(map::map_graph const& map, std::vector<std::pair<const map::map_node&, const map::map_node&>> const& routes);
 		float calculateHeuristic(const map::map_node& source, const map::map_node& target);
+		bool isValid(map::map_graph const& map, float x, float y);
+		bool isDestination(const map::map_node& source, const map::map_node& target);
 	}
 }
 

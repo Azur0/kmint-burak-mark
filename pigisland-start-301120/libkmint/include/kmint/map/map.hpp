@@ -24,8 +24,19 @@ struct map_node_info {
     grassland, or desert or water.
   */
   char kind;
-  float f_cost, g_cost, h_cost;
-  int x, y, parent_x, parent_y;
+
+  float f_cost = 0;
+  float g_cost = 0;
+  float h_cost = 0;
+  float parent_x = -1;
+  float parent_y = -1;
+
+  bool operator ==(const map_node_info& info)
+  {
+    return kind == info.kind && f_cost == info.f_cost && 
+           g_cost == info.g_cost && h_cost == info.h_cost && 
+           parent_x == info.parent_x && parent_y == info.parent_y;
+  }
 };
 
 using map_graph = kmint::graph::basic_graph<map_node_info>;

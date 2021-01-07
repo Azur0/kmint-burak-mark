@@ -11,7 +11,7 @@ namespace kmint {
 
 		class boat : public play::map_bound_actor {
 		public:
-			boat(map::map_graph& g, map::map_node& initial_node);
+			boat(play::stage& s, map::map_graph& g, map::map_node& initial_node);
 			// wordt elke game tick aangeroepen
 			void act(delta_time dt) override;
 			ui::drawable const& drawable() const override { return drawable_; }
@@ -26,13 +26,15 @@ namespace kmint {
 			void decreaseDamage() { decreaseDamage(1); }
 			void increaseDamage(int amount) { damage += amount; }
 			void decreaseDamage(int amount) { damage -= amount; }
+
+			play::stage& stage;
 			
 		private:
 			// hoeveel tijd is verstreken sinds de laatste beweging
 			delta_time t_passed_{};
 			// weet hoe de koe getekend moet worden
 			play::image_drawable drawable_;
-
+			
 			int damage = 0;
 			StateContext stateContext;
 		};

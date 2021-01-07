@@ -10,7 +10,7 @@ namespace pigisland {
 
 class shark : public play::map_bound_actor {
 public:
-  shark(map::map_graph &g, map::map_node &initial_node);
+  shark(play::stage& s, map::map_graph &g, map::map_node &initial_node);
   // wordt elke game tick aangeroepen
   void act(delta_time dt) override;
   ui::drawable const &drawable() const override { return drawable_; }
@@ -24,6 +24,8 @@ public:
   // geeft het bereik aan waarbinnen een haai
   // andere actors kan waarnemen.
   scalar perception_range() const override { return 200.f; }
+
+  play::stage& stage;
 
 private:
   // hoeveel tijd is verstreken sinds de laatste beweging

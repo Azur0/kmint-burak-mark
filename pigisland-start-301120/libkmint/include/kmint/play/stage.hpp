@@ -93,6 +93,31 @@ public:
   const_iterator begin() const;
   const_iterator end() const;
 
+  template <typename T>
+  std::unique_ptr<T> getActor()
+  {
+    for (auto actor : actors_)
+    {
+        if(auto conv = std::dynamic_pointer_cast<T>(actor)) {
+            return conv;
+        }
+    }
+    return nullptr;
+  }
+
+  template <typename T>
+  std::vector<std::unique_ptr<T>> getActors()
+  {
+    std::vector<std::unique_ptr<T>> res;
+
+    for (auto actor : actors_)
+    {
+      if(auto conv = std::dynamic_pointer_cast<T>(actor)) {
+        res.push_back(conv);
+      }
+    }
+    return res;
+  }
 private:
   void check_interactions();
   math::size size_;

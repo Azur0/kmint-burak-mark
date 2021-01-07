@@ -6,9 +6,9 @@ namespace kmint {
 namespace pigisland {
 
 
-pig::pig(math::vector2d location)
+pig::pig(play::stage& s, math::vector2d location)
   : play::free_roaming_actor{location},
-    drawable_{*this, pig_image()} {
+    drawable_{*this, pig_image()}, stage(s) {
 }
 
 

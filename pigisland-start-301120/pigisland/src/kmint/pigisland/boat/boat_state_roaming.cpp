@@ -6,7 +6,7 @@ namespace kmint {
 			
 		void BoatStateRoaming::onEnter()
 		{
-			
+			auto& x = actor.stage;
 		}
 
 		void BoatStateRoaming::onUpdate(delta_time dt)
