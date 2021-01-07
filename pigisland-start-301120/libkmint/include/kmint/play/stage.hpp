@@ -64,7 +64,7 @@ public:
                   " concrete subclasses of actor");
     static_assert(std::is_constructible<T, Args...>::value,
                   "The requested type cannot be constructed from"
-                  "the arguments provided.");
+                  " the arguments provided.");
     actors_.push_back(
         std::make_unique<T>(std::forward<Args>(constructor_arguments)...));
     return *(static_cast<T *>(actors_.back().get()));

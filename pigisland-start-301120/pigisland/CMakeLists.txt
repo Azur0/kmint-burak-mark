@@ -25,7 +25,8 @@ add_executable(pigisland
   src/kmint/pigisland/shark/shark_state_hunting.cpp 
   src/kmint/pigisland/shark/shark_state_fleeing.cpp
   src/kmint/pigisland/shark/shark_state_resting.cpp
-  src/kmint/pigisland/contexts/state_context.cpp)
+  src/kmint/pigisland/contexts/state_context.cpp
+  src/kmint/pigisland/dock.cpp)
 
 target_compile_features(pigisland PUBLIC cxx_std_17)
 target_link_libraries(pigisland PRIVATE kmint)

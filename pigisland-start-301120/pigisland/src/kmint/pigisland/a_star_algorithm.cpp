@@ -16,7 +16,7 @@ namespace kmint {
         	
             for (auto it = routes.begin(); it != routes.end(); ++it)
             {
-                // G cost = distance from starting node
+                // G cost = distance from start node
                 // H cost (heuristic) = distance from end node
                 // F cost = G cost + H cost
 
