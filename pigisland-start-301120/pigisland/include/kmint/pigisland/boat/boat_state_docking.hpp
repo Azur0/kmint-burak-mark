@@ -16,6 +16,8 @@ namespace kmint {
 			void onExit() override;
 		private:
 			boat& actor;
+			std::vector<map::map_node*> path;
+			int path_index;
 		};
 
 	}

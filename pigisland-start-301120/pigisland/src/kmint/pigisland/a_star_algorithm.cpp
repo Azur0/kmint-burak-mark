@@ -12,7 +12,6 @@ namespace kmint {
 		// F cost = G cost + H cost
         std::vector<map::map_node*> aStarSearch(map::map_graph& map, std::vector<std::pair<map::map_node&, map::map_node&>> const& routes, const std::vector<char>& walkableLayers = {})
         {
-            std::vector<map::map_node*> empty;
             std::vector<std::pair<std::vector<map::map_node*>, float>> found_paths;
             //TODO:: save shortest route
             const int MAP_HEIGHT = 24;
@@ -61,17 +60,16 @@ namespace kmint {
                     {
                         std::vector<map::map_node*> found_path = retracePath(source, target);
                         float weight = 0;
-                        std::for_each(found_path.begin(), found_path.end(), [&](map::map_node* node) {
-                                weight += node->node_info().t_cost();
-                            });
+                        for (map::map_node* node : found_path) {
+                            weight += node->node_info().weight;
+                        }
                         found_paths.push_back(std::make_pair(found_path, weight));
                         break;
                     }
 
                     for (auto it = currentNode->begin(); it != currentNode->end(); ++it) {
                         map::map_node* neighbour = &it->to();
-                        const int x = neighbour->location().x() / MAP_WIDTH;
-                        const int y = neighbour->location().y() / MAP_HEIGHT;
+
                         if (std::find(walkableLayers.begin(), walkableLayers.end(), neighbour->node_info().kind) == walkableLayers.end() || std::find(closed_.begin(), closed_.end(), neighbour) != closed_.end()) {
                             continue;
                         }
@@ -92,7 +90,20 @@ namespace kmint {
             	}
             }
 
-            return empty;
+            if (found_paths.empty()) {
+                return {};
+            }
+
+            std::vector<map::map_node*> shortest;
+            float distance = FLT_MAX;
+
+            for (auto path : found_paths) {
+                if (path.second < distance) {
+                    shortest = path.first;
+                    distance = path.second;
+                }
+            }
+            return shortest;
         }
 
         std::vector<map::map_node*> retracePath(const map::map_node& source, map::map_node& target)

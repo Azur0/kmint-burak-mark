@@ -28,7 +28,7 @@ namespace kmint {
 			void decreaseDamage(int amount) { damage -= amount; }
 
 			play::stage& stage;
-			
+			map::map_graph& graph;
 		private:
 			// hoeveel tijd is verstreken sinds de laatste beweging
 			delta_time t_passed_{};
@@ -37,7 +37,6 @@ namespace kmint {
 			
 			int damage = 0;
 			StateContext stateContext;
-			map::map_graph& graph;
 		};
 
 	} // namespace pigisland

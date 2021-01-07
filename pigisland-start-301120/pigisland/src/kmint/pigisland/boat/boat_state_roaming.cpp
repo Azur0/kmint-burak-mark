@@ -1,18 +1,25 @@
 #include "kmint/pigisland/boat/boat_state_roaming.hpp"
 #include "kmint/pigisland/boat/boat_state_docking.hpp"
+#include "kmint/random.hpp"
 
 namespace kmint {
 	namespace pigisland {
 			
 		void BoatStateRoaming::onEnter()
 		{
-			auto& x = actor.stage;
+
 		}
 
 		void BoatStateRoaming::onUpdate(delta_time dt)
 		{
-			actor.increaseDamage(50);
+			// pick random edge
+			int next_index = random_int(0, actor.node().num_edges());
+			actor.node(actor.node()[next_index].to());
 
+			// increase damage
+			actor.increaseDamage(10);
+
+			// change todock state ifdamage reaches 100
 			if(actor.getDamage() == 100)
 			{
 				std::unique_ptr<BoatStateDocking> state = std::make_unique<BoatStateDocking>(this->context, actor);

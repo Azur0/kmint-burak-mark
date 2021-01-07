@@ -22,20 +22,6 @@ namespace kmint {
 			if (to_seconds(t_passed_) >= 1)
 			{
 				stateContext.onUpdate(dt);
-				
-				std::vector<std::pair<map::map_node&, map::map_node&>> routes;
-
-				map::map_node& boat = node();
-				std::unique_ptr<shark>* shark_actor = stage.getActor<shark>();
-				std::vector<std::unique_ptr<Dock>*> docks = stage.getActors<Dock>();
-				for (auto dockie : docks) {
-					routes.push_back(std::pair<map::map_node&, map::map_node&>(boat, dockie->get()->node()));
-				}
-				auto x = aStarSearch(graph, routes, {'W', 'R', 'K', '1', '2', '3'});
-				
-				// pick random edge
-				int next_index = random_int(0, node().num_edges());
-				this->node(node()[next_index].to());
 				t_passed_ = from_seconds(0);
 			}
 		}
