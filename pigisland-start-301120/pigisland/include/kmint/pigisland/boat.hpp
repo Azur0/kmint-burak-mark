@@ -29,6 +29,7 @@ namespace kmint {
 
 			play::stage& stage;
 			map::map_graph& graph;
+			float wait = 1;
 		private:
 			// hoeveel tijd is verstreken sinds de laatste beweging
 			delta_time t_passed_{};

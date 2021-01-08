@@ -19,7 +19,8 @@ namespace kmint {
 		void boat::act(delta_time dt)
 		{
 		    t_passed_ += dt;
-			if (to_seconds(t_passed_) >= 1)
+			
+			if (to_seconds(t_passed_) >= waiting_time(this->node()))
 			{
 				stateContext.onUpdate(dt);
 				t_passed_ = from_seconds(0);

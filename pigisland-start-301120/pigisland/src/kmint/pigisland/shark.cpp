@@ -12,7 +12,7 @@ shark::shark(play::stage& s, map::map_graph &g, map::map_node &initial_node)
 
 void shark::act(delta_time dt) {
   t_passed_ += dt;
-  if (to_seconds(t_passed_) >= 1) {
+  if (to_seconds(t_passed_) >= waiting_time(this->node())) {
     // pick random edge
     int next_index = random_int(0, node().num_edges());
     this->node(node()[next_index].to());
