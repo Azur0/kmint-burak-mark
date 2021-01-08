@@ -14,6 +14,7 @@ namespace kmint {
 			void onEnter() override;
 			void onUpdate(delta_time dt) override;
 			void onExit() override;
+			std::string getIdentifier() override { return "sharkStateRoaming"; }
 		private:
 			shark& actor;
 		};

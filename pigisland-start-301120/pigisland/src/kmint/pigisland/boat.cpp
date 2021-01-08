@@ -22,6 +22,8 @@ namespace kmint {
 			
 			if (to_seconds(t_passed_) >= waiting_time(this->node()))
 			{
+				// std::cout << "BOAT HEALTH: " << damage << "\n";
+				
 				stateContext.onUpdate(dt);
 				t_passed_ = from_seconds(0);
 			}

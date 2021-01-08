@@ -15,11 +15,12 @@ namespace kmint {
 			void onEnter() override;
 			void onUpdate(delta_time dt) override;
 			void onExit() override;
+			std::string getIdentifier() override { return "boatStateDocking"; }
 		private:
 			boat& actor;
 			std::vector<map::map_node*> path;
 			int path_index;
-			std::unique_ptr<Dock>* currentDock;
+			int health;
 		};
 
 	}

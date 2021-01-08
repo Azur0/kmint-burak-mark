@@ -15,6 +15,7 @@ namespace kmint {
 			}
 			this->currentState = std::move(newState);
 			this->currentState->onEnter();
+			activeState = this->currentState->getIdentifier();
 		}
 		
 	}
