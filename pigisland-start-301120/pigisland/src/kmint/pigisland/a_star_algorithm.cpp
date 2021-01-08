@@ -52,7 +52,7 @@ namespace kmint {
             			}
             		}
 
-                    open.erase(open.begin());
+                    open.erase(std::find(open.begin(), open.end(), currentNode));
                     closed_.push_back(currentNode);
 
             		// Found path
