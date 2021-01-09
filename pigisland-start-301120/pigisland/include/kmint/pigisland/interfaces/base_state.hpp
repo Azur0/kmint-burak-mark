@@ -19,6 +19,7 @@ namespace kmint {
 			virtual void onEnter() = 0;
 			virtual void onUpdate(delta_time dt) = 0;
 			virtual void onExit() = 0;
+			virtual std::string getIdentifier() = 0;
 		};
 		
 	}

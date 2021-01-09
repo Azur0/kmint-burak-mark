@@ -42,6 +42,16 @@ map::map_node const &find_closest_node_to(map::map_graph const &graph,
   return *i;
 }
 
+map::map_node& find_without_const_closest_node_to(map::map_graph& graph,
+    math::vector2d location) {
+    auto i = std::min_element(graph.begin(), graph.end(),
+        [location](auto const& l, auto const& r) {
+            return distance2(l.location(), location) <
+                distance2(r.location(), location);
+        });
+    return *i;
+}
+
 double waiting_time(map::map_node const &node) { return node[0].weight(); }
 
 } // namespace pigisland

@@ -21,14 +21,18 @@ namespace kmint {
 			// Belangrijk voor collision detection
 			scalar collision_range() const override { return 16.0; }
 
+			std::string getCurrentState() { return stateContext.getCurrentState(); }
+			
 			int getDamage() const { return damage; }
 			void increaseDamage() { increaseDamage(1); }
 			void decreaseDamage() { decreaseDamage(1); }
-			void increaseDamage(int amount) { damage += amount; }
-			void decreaseDamage(int amount) { damage -= amount; }
+			void increaseDamage(int amount) { damage += amount; isRepaired = false; }
+			void decreaseDamage(int amount) { damage -= amount; isRepaired = true; }
+			bool getRepaired() { return isRepaired; }
 
 			play::stage& stage;
 			map::map_graph& graph;
+			float wait = 1;
 		private:
 			// hoeveel tijd is verstreken sinds de laatste beweging
 			delta_time t_passed_{};
@@ -36,6 +40,7 @@ namespace kmint {
 			play::image_drawable drawable_;
 			
 			int damage = 0;
+			bool isRepaired = false;
 			StateContext stateContext;
 		};
 

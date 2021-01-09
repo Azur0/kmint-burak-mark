@@ -17,13 +17,14 @@ namespace kmint {
 			actor.node(actor.node()[next_index].to());
 
 			// increase damage
-			actor.increaseDamage(10);
+			actor.increaseDamage();
 
-			// change todock state ifdamage reaches 100
-			if(actor.getDamage() == 100)
+			// change to dock state if damage reaches >= 100
+			if(actor.getDamage() >= 100)
 			{
 				std::unique_ptr<BoatStateDocking> state = std::make_unique<BoatStateDocking>(this->context, actor);
 				this->context.changeState(std::move(state));
+				return;
 			}
 		}
 

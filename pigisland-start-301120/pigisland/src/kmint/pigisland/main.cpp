@@ -15,6 +15,8 @@
 #include <random>
 #include <vector>
 
+#include "kmint/pigisland/rest.hpp"
+
 using namespace kmint;
 
 int main() {
@@ -33,6 +35,7 @@ int main() {
   s.build_actor<play::map_actor>(math::vector2d{0.f, 0.f}, map.graph());
   s.build_actor<pigisland::boat>(s, graph, pigisland::find_node_of_kind(graph, 'B'));          // Bootvarken
   s.build_actor<pigisland::shark>(s, graph, pigisland::find_node_of_kind(graph, 'K'));         // Haai
+  s.build_actor<pigisland::Rest>(s, graph, pigisland::find_node_of_kind(graph, 'K'), 100);         // Haai
 	
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '1'), 30, 50);  // Graaneiland
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '2'), 20, 100); // Graseiland

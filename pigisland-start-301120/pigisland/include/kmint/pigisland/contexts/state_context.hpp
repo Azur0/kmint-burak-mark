@@ -14,9 +14,11 @@ namespace kmint {
 		{
 		private:
 			std::unique_ptr<BaseState> currentState;
+			std::string activeState;
 		public:
 			void onUpdate(delta_time dt);
 			void changeState(std::unique_ptr<BaseState> newState);
+			std::string getCurrentState() { return currentState->getIdentifier(); }
 		};
 		
 	}
