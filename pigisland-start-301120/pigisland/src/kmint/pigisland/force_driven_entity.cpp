@@ -24,12 +24,23 @@ namespace kmint {
 
 
 			math::vector2d newLoc = location() + (velocity_ * to_seconds(dt));
-			velocity_ += acceleration_;
+			location(newLoc); 
 		}
 
-		math::vector2d ForceDrivenEntity::calculateForce() {
-			math::vector2d force(random_int(0.0f, max_force_), random_int(0.0f, max_force_));
-			return force;
+		math::vector2d ForceDrivenEntity::calculateAcceleration() {
+			return math::vector2d((force_.x() / mass_), (force_.y() / mass_));
+		}
+
+		void ForceDrivenEntity::force(math::vector2d force) {
+			force_.x(std::clamp(force.x(), 0.0f, max_force_));
+			force_.y(std::clamp(force.y(), 0.0f, max_force_));
+		}
+
+		void ForceDrivenEntity::accelerate(math::vector2d acceleration) 
+		{ 
+			acceleration_ += acceleration;
+			limit(acceleration, max_force_);
+			mag(acceleration, max_speed_);
 		}
 
 	} // namespace pigisland

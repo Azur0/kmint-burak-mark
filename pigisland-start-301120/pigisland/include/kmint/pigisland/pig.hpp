@@ -36,8 +36,6 @@ public:
 
   const float alignment() { return alignment_; }
   void alignment(float alignment) { alignment_ = alignment; }
-
-  math::vector2d calculateForce() override;
 private:
   play::image_drawable drawable_;			
 

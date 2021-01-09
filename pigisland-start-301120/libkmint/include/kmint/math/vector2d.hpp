@@ -148,6 +148,35 @@ basic_vector2d<Scalar> rotate(basic_vector2d<Scalar> v, angle theta) {
   auto c = cos(theta);
   return {c * v.x() - s * v.y(), s * v.x() + c * v.y()};
 }
+
+template <typename Scalar>
+constexpr auto mag(basic_vector2d<Scalar> vector,
+                        int length) {
+  vector = normalize(vector);
+  vector = vector * length;
+  return vector;
+}
+
+template <typename Scalar>
+constexpr auto mag(basic_vector2d<Scalar> vector) {
+  return sqrt(magSq(vector));
+}
+
+template <typename Scalar> 
+constexpr auto magSq(basic_vector2d<Scalar> vector) {
+  
+    return vector.x() * vector.x() + vector.y() * vector.y();
+}
+
+template <typename Scalar> 
+constexpr auto limit(basic_vector2d<Scalar> vector, int max) {
+  const auto mSq = magSq(vector);
+  if (mSq > max * max) {
+    vector = vector / sqrt(mSq);
+    vector = vector * max;
+  }
+  return vector;
+}
 } // namespace math
 } // namespace kmint
 

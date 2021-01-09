@@ -17,19 +17,22 @@ namespace kmint {
 			math::vector2d heading() { return heading_; }
 			void heading(math::vector2d heading) { heading_ = heading; }
 
+			void velocity(math::vector2d velocity) { velocity_ = velocity; }
 			const math::vector2d velocity() { return velocity_; }
 			const math::vector2d acceleration() { return acceleration_; }
-			void accelerate(math::vector2d acceleration) { acceleration_ += acceleration; }
+			void accelerate(math::vector2d acceleration);
 
-			virtual math::vector2d calculateForce();
+			void force(math::vector2d force);
+			math::vector2d calculateAcceleration();
 		private:
 			math::vector2d velocity_;
 			math::vector2d acceleration_;
+			math::vector2d force_;
+			math::vector2d heading_;
 		protected:
-			math::vector2d heading_ { 1, 0 };
-			float mass_ = 70.0f;
-			float max_speed_ = 0.5f;
-			float max_force_ = 50.0f;
+			float mass_;
+			float max_speed_;
+			float max_force_;
 		};
 
 	} // namespace pigisland

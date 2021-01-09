@@ -38,7 +38,7 @@ int main() {
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '2'), 20, 100); // Graseiland
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '3'), 50, 50);  // Boomeiland
 
-  auto locs = pigisland::random_pig_locations(20);
+  auto locs = pigisland::random_pig_locations(100);
   for (auto loc : locs) {
     s.build_actor<pigisland::pig>(s, graph, loc);
   }
