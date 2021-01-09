@@ -38,9 +38,9 @@ int main() {
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '2'), 20, 100); // Graseiland
   s.build_actor<pigisland::Dock>(s, graph, pigisland::find_node_of_kind(graph, '3'), 50, 50);  // Boomeiland
 
-  auto locs = pigisland::random_pig_locations(100);
+  auto locs = pigisland::random_pig_locations(20);
   for (auto loc : locs) {
-    s.build_actor<pigisland::pig>(s, loc);
+    s.build_actor<pigisland::pig>(s, graph, loc);
   }
 
   // Maak een event_source aan (hieruit kun je alle events halen, zoals
