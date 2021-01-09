@@ -15,6 +15,7 @@ namespace kmint {
 			Rest(play::stage& s, map::map_graph& g, map::map_node& initial_node, int heal);
 			bool must_draw() const override { return false; };
 			ui::drawable const& drawable() const override { return drawable_; }
+			bool perceivable() const override { return false; }
 
 			void act(delta_time dt) override;
 

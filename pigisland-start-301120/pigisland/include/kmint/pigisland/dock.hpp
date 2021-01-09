@@ -16,6 +16,7 @@ namespace kmint {
 			ui::drawable const& drawable() const override { return drawable_; }
 
 			void act(delta_time dt) override;
+			bool perceivable() const override { return false; }
 			
 			void setMinimumHeal(int amount) { minHeal = amount; }
 			int getMinimumHeal() { return minHeal; }

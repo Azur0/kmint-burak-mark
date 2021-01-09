@@ -39,6 +39,9 @@ namespace kmint {
 			void decreaseFatigue(int amount) { fatigue -= amount; isRested_ = true; }
 			bool isRested() { return isRested_; }
 
+			void setTarget(map::map_node* pig) { target_ = pig;  }
+			map::map_node* getTarget() { return target_; }
+
 		private:
 			// hoeveel tijd is verstreken sinds de laatste beweging
 			delta_time t_passed_{};
@@ -48,6 +51,8 @@ namespace kmint {
 			int fatigue = 0;
 			StateContext stateContext;
 			bool isRested_;
+
+			map::map_node* target_;
 		};
 
 	} // namespace pigisland

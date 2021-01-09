@@ -22,18 +22,9 @@ namespace kmint {
 			
 			if (to_seconds(t_passed_) >= waiting_time(this->node()))
 			{
-				std::cout << "SHARK FATIGUE: " << fatigue << "\n";
-				
 				stateContext.onUpdate(dt);
 				t_passed_ = from_seconds(0);
 			}
-			
-			// laat ook even zien welke varkentjes hij ruikt
-			//for (auto i = begin_perceived(); i != end_perceived(); ++i)
-			//{
-			//	auto const &a = *i;
-			//	std::cout << "Smelled a pig at " << a.location().x() << ", " << a.location().y() << "\n";
-			//}
 		}
 
 	} // namespace pigisland

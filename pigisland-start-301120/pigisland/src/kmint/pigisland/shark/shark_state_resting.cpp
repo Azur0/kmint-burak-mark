@@ -45,8 +45,6 @@ namespace kmint {
 
 				return;
 			}
-
-			auto x = 5;
 		}
 
 		void SharkStateResting::onExit()

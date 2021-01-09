@@ -17,6 +17,8 @@ namespace kmint {
 			std::string getIdentifier() override { return "sharkStateHunting"; }
 		private:
 			shark& actor;
+			std::vector<map::map_node*> path;
+			int path_index;
 		};
 
 	}
