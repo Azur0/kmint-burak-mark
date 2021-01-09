@@ -17,6 +17,7 @@ namespace kmint {
 			std::string getIdentifier() override { return "sharkStateFleeing"; }
 		private:
 			shark& actor;
+			int spookedCounter = 0;
 		};
 
 	}
