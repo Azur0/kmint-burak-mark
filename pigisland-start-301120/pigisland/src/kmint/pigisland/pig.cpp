@@ -57,7 +57,8 @@ namespace pigisland {
     }
 
 	flock_attributes pig::flocking() {
-		math::vector2d average_heading;
+		math::vector2d steering_force;			// Seperation
+		math::vector2d average_heading;			// Alignment
 		flock_attributes flock;
 
 		int percieved_nieghbours = 0;
@@ -69,15 +70,18 @@ namespace pigisland {
 			if (typeid(act).name() == typeid(pig).name()) {
 				pig& neighbour = dynamic_cast<pig&>(act);
 				if (sees(*this, neighbour)) {
-					average_heading += neighbour.heading();
+					math::vector2d to_agent = location() - neighbour.location();	// Seperation
+					steering_force += normalize(to_agent) / length(to_agent);		// Seperation
+					average_heading += neighbour.heading();							// Alignment
 					percieved_nieghbours++;
 				}
 			}
 		}
 
 		if (percieved_nieghbours > 0) {
-			flock.alignment_ = average_heading / percieved_nieghbours;
-			flock.alignment_ = average_heading - heading();
+			flock.separation_ = steering_force;								// Seperation
+			flock.alignment_ = average_heading / percieved_nieghbours;		// Alignment
+			flock.alignment_ = average_heading - heading();					// Alignment
 		}
 		return flock;
 	}

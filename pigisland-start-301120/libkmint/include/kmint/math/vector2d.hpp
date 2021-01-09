@@ -167,6 +167,15 @@ constexpr auto truncate(basic_vector2d<Scalar> vector, Scalar maxLength) {
   }
   return vector;
 }
+
+template <typename Scalar>
+constexpr auto length(basic_vector2d<Scalar> vector) {
+  const auto vector_length =
+      sqrt((vector.x() * vector.x()) + (vector.y() * vector.y()));
+
+  return vector_length;
+}
+
 } // namespace math
 } // namespace kmint
 
