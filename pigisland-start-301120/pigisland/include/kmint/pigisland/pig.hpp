@@ -33,7 +33,7 @@ struct flock_attributes {
 		f_attraction_k_ = 1.0f;
 		f_attraction_pv_ = 1.0f;
 		f_cohesion_ = 1.0f;
-		f_separation_ = 1.0f;
+		f_separation_ = 1.0f;	// TODO: ZET DIT NAAR 10.0f als je ruimte tussen de varkens wilt
 		f_alignment_ = 1.0f;
 	}
 
@@ -64,6 +64,7 @@ private:
   play::image_drawable drawable_;			
 
   float perception_range_;
+  math::vector2d seek(math::vector2d target_pos);
 };
 
 } // namespace pigisland

@@ -59,6 +59,8 @@ namespace pigisland {
 	flock_attributes pig::flocking() {
 		math::vector2d steering_force;			// Seperation
 		math::vector2d average_heading;			// Alignment
+		math::vector2d center_of_mass;			// Cohesion
+    	
 		flock_attributes flock;
 
 		int percieved_nieghbours = 0;
@@ -73,6 +75,8 @@ namespace pigisland {
 					math::vector2d to_agent = location() - neighbour.location();	// Seperation
 					steering_force += normalize(to_agent) / length(to_agent);		// Seperation
 					average_heading += neighbour.heading();							// Alignment
+					center_of_mass += neighbour.location();							// Cohesion
+					
 					percieved_nieghbours++;
 				}
 			}
@@ -82,8 +86,18 @@ namespace pigisland {
 			flock.separation_ = steering_force;								// Seperation
 			flock.alignment_ = average_heading / percieved_nieghbours;		// Alignment
 			flock.alignment_ = average_heading - heading();					// Alignment
+			
+			center_of_mass = center_of_mass / percieved_nieghbours;			// Cohesion
+			flock.cohesion_ = seek(center_of_mass);							// Cohesion
 		}
 		return flock;
+	}
+
+	math::vector2d pig::seek(math::vector2d target_pos)
+	{
+		math::vector2d desired_velocity = normalize(target_pos - location()) * max_speed_;
+
+		return (desired_velocity - velocity());
 	}
 } // namespace pigisland
 
