@@ -2,6 +2,7 @@
 
 #include "kmint/pigisland/a_star_algorithm.hpp"
 #include "kmint/pigisland/shark/shark_state_roaming.hpp"
+#include <kmint\pigisland\pig.hpp>
 
 namespace kmint {
 	namespace pigisland {
@@ -36,6 +37,16 @@ namespace kmint {
 
 			if (path_index == path.size())
 			{
+				// Eat pig(s) on target node
+				for (auto i = actor.begin_collision(); i != actor.end_collision(); ++i) {
+					auto& currentActor = *i;
+
+					if (typeid(currentActor).name() == typeid(pig).name()) {
+						pig& piggy = dynamic_cast<pig&>(currentActor);
+						currentActor.remove();
+					}
+				}
+				
 				std::unique_ptr<SharkStateRoaming> state = std::make_unique<SharkStateRoaming>(this->context, actor);
 				this->context.changeState(std::move(state));
 				return;
