@@ -1,13 +1,52 @@
 #ifndef KMINT_PIGISLAND_PIG_HPP
 #define KMINT_PIGISLAND_PIG_HPP
 
+class flocking;
 #include "kmint/play.hpp"
+#include "kmint/random.hpp"
 #include <tuple>
 #include <vector>
 #include "kmint/pigisland/force_driven_entity.hpp"
 
 namespace kmint {
 namespace pigisland {
+struct flock_attributes {
+	float f_attraction_k_ = 0.0f;
+	float f_attraction_pv_ = 1.0f;
+	float f_cohesion_ = 1.0f;
+	float f_separation_ = 1.0f;
+	float f_alignment_ = 1.0f;
+
+	math::vector2d attraction_k_;
+	math::vector2d attraction_pv_;
+	math::vector2d cohesion_;
+	math::vector2d alignment_;
+	math::vector2d separation_;
+
+	flock_attributes() {
+		//f_attraction_k_ = random_scalar(-1.0f, 1.0f);
+		//f_attraction_pv_ = random_scalar(-1.0f, 1.0f);
+		//f_cohesion_ = random_scalar(-1.0f, 1.0f);
+		//f_separation_ = random_scalar(-1.0f, 1.0f);
+		//f_alignment_ = random_scalar(-1.0f, 1.0f);
+
+		f_attraction_k_ = 1.0f;
+		f_attraction_pv_ = 1.0f;
+		f_cohesion_ = 1.0f;
+		f_separation_ = 1.0f;
+		f_alignment_ = 1.0f;
+	}
+
+	math::vector2d calculate() {
+		math::vector2d steering_force;
+		steering_force += attraction_k_ * f_attraction_k_;
+		steering_force += attraction_pv_ * f_attraction_pv_;
+		steering_force += cohesion_ * f_cohesion_;
+		steering_force += separation_ * f_separation_;
+		steering_force += alignment_ * f_alignment_;
+		return steering_force;
+	}
+};
 
 class pig : public ForceDrivenEntity {
 public:
@@ -18,34 +57,13 @@ public:
   scalar collision_range() const override { return 16.0; }
   bool perceptive() const override { return true; }
   scalar perception_range() const override { return perception_range_; }
-
+  flock_attributes flocking();
   play::stage& stage;
   map::map_graph& graph;
-
-  const float attraction_k() { return attraction_k_; }
-  void attraction_k(float attraction_k) { attraction_k_ = attraction_k; }
-
-  const float attraction_pv() { return attraction_pv_; }
-  void attraction_pv(float attraction_pv) { attraction_pv_ = attraction_pv; }
-
-  const float cohesion() { return cohesion_; }
-  void cohesion(float cohesion) { cohesion_ = cohesion; }
-
-  const float separation() { return separation_; }
-  void separation(float separation) { separation_ = separation; }
-
-  const float alignment() { return alignment_; }
-  void alignment(float alignment) { alignment_ = alignment; }
 private:
   play::image_drawable drawable_;			
 
-  float perception_range_ = 0.0f;
-  float attraction_k_ = 0.0f;
-  float attraction_pv_ = 0.0f;
-  float cohesion_ = 0.0f;
-  float separation_ = 0.0f;
-  float alignment_ = 0.0f;
-  math::vector2d align();
+  float perception_range_;
 };
 
 } // namespace pigisland

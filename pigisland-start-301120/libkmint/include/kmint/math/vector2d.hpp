@@ -150,30 +150,20 @@ basic_vector2d<Scalar> rotate(basic_vector2d<Scalar> v, angle theta) {
 }
 
 template <typename Scalar>
-constexpr auto mag(basic_vector2d<Scalar> vector,
-                        int length) {
-  vector = normalize(vector);
-  vector = vector * length;
-  return vector;
-}
-
-template <typename Scalar>
-constexpr auto mag(basic_vector2d<Scalar> vector) {
-  return sqrt(magSq(vector));
+constexpr auto setLength(basic_vector2d<Scalar> vector, Scalar length) {
+  math::vector2d res = normalize(vector);
+  res = res * length;
+  return res;
 }
 
 template <typename Scalar> 
-constexpr auto magSq(basic_vector2d<Scalar> vector) {
-  
-    return vector.x() * vector.x() + vector.y() * vector.y();
-}
+constexpr auto truncate(basic_vector2d<Scalar> vector, Scalar maxLength) {
+  const auto sqrMag = norm2(vector);
+  if (sqrMag > maxLength * maxLength) {
+    float mag = norm(vector);
 
-template <typename Scalar> 
-constexpr auto limit(basic_vector2d<Scalar> vector, int max) {
-  const auto mSq = magSq(vector);
-  if (mSq > max * max) {
-    vector = vector / sqrt(mSq);
-    vector = vector * max;
+    vector = vector / mag;
+    vector = vector * maxLength;
   }
   return vector;
 }
