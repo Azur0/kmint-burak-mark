@@ -4,6 +4,11 @@
 #include "kmint/pigisland/shark/shark_state_roaming.hpp"
 #include <kmint\pigisland\pig.hpp>
 
+
+#include "kmint/pigisland/boat.hpp"
+#include "kmint/pigisland/shark/shark_state_fleeing.hpp"
+#include "kmint/pigisland/shark/shark_state_resting.hpp"
+
 namespace kmint {
 	namespace pigisland {
 
@@ -24,8 +29,35 @@ namespace kmint {
 
 		void SharkStateHunting::onUpdate(delta_time dt)
 		{
+			// increase fatigue
+			actor.increaseFatigue();
+			
+			if (actor.getFatigue() >= 100)
+			{
+				std::unique_ptr<SharkStateResting> state = std::make_unique<SharkStateResting>(this->context, actor);
+				this->context.changeState(std::move(state));
+				return;
+			}
+			
+			// Shark fleeing mechanic
+			for (auto i = actor.begin_perceived(); i != actor.end_perceived(); ++i)
+			{
+				auto const& a = *i;
+
+				if (typeid(a).name() == typeid(boat).name()) {
+					std::cout << math::distance(actor.location(), actor.stage.getActor<boat>()->get()->location()) << "\n";
+
+					// TODO: Change 100 -> 50
+					if (math::distance(actor.location(), a.location()) <= 100)
+					{
+						std::unique_ptr<SharkStateFleeing> state = std::make_unique<SharkStateFleeing>(this->context, actor);
+						this->context.changeState(std::move(state));
+						return;
+					}
+				}
+			}
+			
 			// Shark moving mechanic
-			int x = path.size();
 			if (path_index < path.size()) {
 				actor.node().tag(graph::node_tag::normal);
 				map::map_node& node = *path.at(path_index);
