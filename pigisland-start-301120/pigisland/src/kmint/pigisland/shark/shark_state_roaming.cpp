@@ -3,6 +3,7 @@
 #include "kmint/random.hpp"
 #include "kmint/pigisland/boat.hpp"
 #include "kmint/pigisland/node_algorithm.hpp"
+#include "kmint/pigisland/pig.hpp"
 #include "kmint/pigisland/shark/shark_state_fleeing.hpp"
 #include "kmint/pigisland/shark/shark_state_hunting.hpp"
 #include "kmint/pigisland/shark/shark_state_resting.hpp"
@@ -36,6 +37,7 @@ namespace kmint {
 			{
 				auto const &a = *i;
 
+				// Shark gets spooked
 				if (typeid(a).name() == typeid(boat).name()) {
 					std::cout << math::distance(actor.location(), actor.stage.getActor<boat>()->get()->location()) << "\n";
 
@@ -47,17 +49,17 @@ namespace kmint {
 						return;
 					}
 				}
-				
-				std::cout << "Smelled a pig at " << a.location().x() << ", " << a.location().y() << "\n";
-				
-				map::map_node* node = &find_without_const_closest_node_to(actor.graph, a.location());
 
-				// Set shark target
-				actor.setTarget(node);
+				// Shark smells piggy
+				if (typeid(a).name() == typeid(pig).name()) {
+					std::cout << "Smelled a pig at " << a.location().x() << ", " << a.location().y() << "\n";
+					map::map_node* node = &find_without_const_closest_node_to(actor.graph, a.location());
+					actor.setTarget(node);
 
-				std::unique_ptr<SharkStateHunting> state = std::make_unique<SharkStateHunting>(this->context, actor);
-				this->context.changeState(std::move(state));
-				return;
+					std::unique_ptr<SharkStateHunting> state = std::make_unique<SharkStateHunting>(this->context, actor);
+					this->context.changeState(std::move(state));
+					return;
+				}
 			}
 		}
 
