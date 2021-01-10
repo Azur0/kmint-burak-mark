@@ -16,6 +16,7 @@ struct flock_attributes {
 	float f_cohesion_ = 1.0f;
 	float f_separation_ = 1.0f;
 	float f_alignment_ = 1.0f;
+	float f_collision_ = 10.0f;
 
 	math::vector2d attraction_k_;
 	math::vector2d attraction_pv_;
@@ -39,7 +40,7 @@ struct flock_attributes {
 		steering_force += cohesion_ * f_cohesion_;
 		steering_force += separation_ * f_separation_;
 		steering_force += alignment_ * f_alignment_;
-		steering_force += collision_;
+		steering_force += collision_ * f_collision_;
 		return steering_force;
 	}
 };
