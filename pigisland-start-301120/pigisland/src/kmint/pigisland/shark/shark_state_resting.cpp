@@ -4,6 +4,8 @@
 #include "kmint/pigisland/node_algorithm.hpp"
 #include "kmint/pigisland/rest.hpp"
 #include "kmint/pigisland/shark/shark_state_roaming.hpp"
+#include "kmint/pigisland/resources.hpp"
+#include "kmint/pigisland/pig.hpp"
 
 namespace kmint {
 	namespace pigisland {
@@ -31,6 +33,16 @@ namespace kmint {
 			// Shark resting mechanic
 			if(actor.isRested() == true)
 			{
+				std::vector<std::unique_ptr<pig>*> pigs = actor.stage.getActors<pig>();
+				for (std::unique_ptr<pig>* piggy : pigs) {
+					piggy->get()->remove();
+				}
+				// spawn new pigs
+				auto locs = random_pig_locations(100);
+				for (auto loc : locs) {
+					actor.stage.build_actor<pig>(loc);
+				}
+
 				std::unique_ptr<SharkStateRoaming> state = std::make_unique<SharkStateRoaming>(this->context, actor);
 				this->context.changeState(std::move(state));
 				return;
@@ -42,7 +54,6 @@ namespace kmint {
 				map::map_node& node = *path.at(path_index);
 				actor.node(node);
 				path_index++;
-
 				return;
 			}
 		}

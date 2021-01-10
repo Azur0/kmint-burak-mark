@@ -7,9 +7,9 @@
 namespace kmint {
 namespace pigisland {
 
-    map::map_node & random_adjacent_node(map::map_node & node) {
-        int r = random_int(0, node.num_edges());
-        return node[r].to();
+map::map_node & random_adjacent_node(map::map_node & node) {
+    int r = random_int(0, node.num_edges());
+    return node[r].to();
 }
 
 map::map_node const &find_node_of_kind(map::map_graph const &graph, char kind) {

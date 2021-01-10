@@ -6,17 +6,14 @@
 
 namespace kmint {
 namespace pigisland {
-
-
-    pig::pig(play::stage& s, map::map_graph& g, math::vector2d location) : ForceDrivenEntity{location}, drawable_{*this, pig_image()}, stage(s), graph(g) 
+	pig::pig(math::vector2d location) : ForceDrivenEntity{ location }, drawable_{ *this, pig_image() }
 	{
-		perception_range_ = 70.0f;// random_scalar(150.f, 250.0f);
-		mass_ = 0.25f;//random_scalar(5.0f, 10.0f);
-		//max_speed_ = random_scalar(0.5f, 1.0f);
-		max_force_ = 100.0f;
+		perception_range_ = 70.0f;
+		mass_ = 0.25f;
+		max_force_ = 5.0f;
 		max_speed_ = 1.0f;
 		math::vector2d v(random_scalar(-100.0f, 100.0f), random_scalar(-100.0f, 100.0f));
-		//v = setLength(v, 1.0f);
+		v = setLength(v, 1.0f);
 		velocity(v);
     }
 
@@ -26,27 +23,9 @@ namespace pigisland {
 		math::vector2d current_heading = heading();
 		math::vector2d current_velocity = velocity();
 
-		//if (current_location.x() + 16 < 0) {
-		//	heading().x(std::abs(heading().x()));
-		//}
-		//else if (current_location.x() + 16 > 1024) {
-		//	heading().x(-std::abs(heading().x()));
-		//}
-
-		if (current_location.y() + current_velocity.y() - 16 < 0) {
-			heading(perp(current_heading));
-		}
-		else if (current_location.y() + current_velocity.y() + 16 > 768) {
-			heading(perp(current_heading));
-		}
-
 		flock_attributes flock = flocking();
 		math::vector2d steering_force = flock.calculate();
 		math::vector2d acceleration = steering_force / mass_;
-
-		////TODO: get nearest node
-		////TODO: if colliding with do nothing
-		////TODO: set heading to random edge of nearest node
 
 		math::vector2d new_velocity = current_velocity + (acceleration * to_seconds(dt));
 		math::vector2d truncated_velocity = truncate(new_velocity, max_force_ * to_seconds(dt));
@@ -54,7 +33,6 @@ namespace pigisland {
 		if (norm(truncated_velocity) > 0.00000001)
 		{
 			heading(normalize(velocity()));
-			//m_vSide = m_vHeading.Perp();
 		}
 		location(current_location + truncated_velocity);
 		velocity(truncated_velocity);
@@ -74,10 +52,9 @@ namespace pigisland {
 			play::actor& act = *i;
 
 			
-			
 			if (typeid(act).name() == typeid(Obstacle).name()) {
 				// check obstacles
-				if(distance(location(), act.location()) < 50)
+				if(distance(location(), act.location()) < 75)
 				{
 					percieved_obstacles++;
 					steering_force_2_electric_boogalo += act.location();

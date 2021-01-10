@@ -3,6 +3,7 @@
 #include "kmint/random.hpp"
 #include "kmint/pigisland/shark/shark_state_resting.hpp"
 #include "kmint/pigisland/shark/shark_state_roaming.hpp"
+#include "kmint/pigisland/node_algorithm.hpp"
 
 namespace kmint {
 	namespace pigisland {
@@ -27,8 +28,7 @@ namespace kmint {
 			
 			if(spookedCounter < 10)
 			{
-				int next_index = random_int(0, actor.node().num_edges());
-				actor.node(actor.node()[next_index].to());
+				actor.node(random_adjacent_node(actor.node()));
 				spookedCounter++;
 				return;
 			}

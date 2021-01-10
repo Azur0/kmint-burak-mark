@@ -5,6 +5,7 @@
 #include "kmint/pigisland/a_star_algorithm.hpp"
 #include "kmint/map/map.hpp"
 #include "kmint/pigisland/boat/boat_state_roaming.hpp"
+#include "kmint/pigisland/node_algorithm.hpp"
 
 namespace kmint {
 	namespace pigisland {
@@ -30,6 +31,7 @@ namespace kmint {
 
 		void BoatStateDocking::onUpdate(delta_time dt)
 		{
+			t_passed_ += dt;
 			// Boat damage check
 			if (actor.getRepaired() == true)
 			{	
@@ -38,13 +40,18 @@ namespace kmint {
 				return;
 			}
 
-			// Boat moving mechanic
-			if (path_index < path.size()) {
-				actor.node().tag(graph::node_tag::normal);
-				map::map_node& node = *path.at(path_index);
-				actor.node(node);
-				path_index++;
+			if (to_seconds(t_passed_) >= waiting_time(actor.node()))
+			{
+				// Boat moving mechanic
+				if (path_index < path.size()) {
+					actor.node().tag(graph::node_tag::normal);
+					map::map_node& node = *path.at(path_index);
+					actor.node(node);
+					path_index++;
+				}
+				t_passed_ = from_seconds(0);
 			}
+
 		}
 
 		void BoatStateDocking::onExit()

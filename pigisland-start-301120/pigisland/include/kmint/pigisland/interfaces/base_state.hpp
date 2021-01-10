@@ -13,7 +13,8 @@ namespace kmint {
 		{
 		protected:
 			StateContext& context;
-			play::map_bound_actor& actor;
+			play::map_bound_actor& actor;			
+			delta_time t_passed_{};
 		public:
 			BaseState(StateContext& stateContext, play::map_bound_actor& stateActor) : context(stateContext), actor(stateActor) { };
 			virtual void onEnter() = 0;

@@ -16,7 +16,7 @@ struct flock_attributes {
 	float f_cohesion_ = 1.0f;
 	float f_separation_ = 1.0f;
 	float f_alignment_ = 1.0f;
-	float f_collision_ = 10.0f;
+	float f_collision_ = 1.0f;
 
 	math::vector2d attraction_k_;
 	math::vector2d attraction_pv_;
@@ -31,6 +31,7 @@ struct flock_attributes {
 		f_cohesion_ = random_scalar(0.0f, 1.0f);
 		f_separation_ = random_scalar(0.0f, 1.0f);
 		f_alignment_ = random_scalar(0.0f, 1.0f);
+		f_collision_ = 7.5f;
 	}
 
 	math::vector2d calculate() {
@@ -47,16 +48,15 @@ struct flock_attributes {
 
 class pig : public ForceDrivenEntity {
 public:
-  pig(play::stage& s, map::map_graph& g, math::vector2d location);
+  pig(math::vector2d location);
   const ui::drawable &drawable() const override { return drawable_; }
   void act(delta_time dt) override;
 
+  bool incorporeal() const override { return false; }
   scalar collision_range() const override { return 16.0; }
   bool perceptive() const override { return true; }
   scalar perception_range() const override { return perception_range_; }
   flock_attributes flocking();
-  play::stage& stage;
-  map::map_graph& graph;
 private:
   play::image_drawable drawable_;			
 

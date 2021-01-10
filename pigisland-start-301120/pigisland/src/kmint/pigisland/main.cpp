@@ -263,7 +263,7 @@ int main() {
 	
   auto locs = pigisland::random_pig_locations(100);
   for (auto loc : locs) {
-    s.build_actor<pigisland::pig>(s, graph, loc);
+    s.build_actor<pigisland::pig>(loc);
   }
 
   // Maak een event_source aan (hieruit kun je alle events halen, zoals

@@ -19,7 +19,7 @@ namespace kmint {
 			bool incorporeal() const override { return false; }
 			// geeft de lengte van een zijde van de collision box van deze actor terug.
 			// Belangrijk voor collision detection
-			scalar collision_range() const override { return 16.0; }
+			scalar collision_range() const override { return 32.0; }
 
 			std::string getCurrentState() { return stateContext.getCurrentState(); }
 			
@@ -34,8 +34,6 @@ namespace kmint {
 			map::map_graph& graph;
 			float wait = 1;
 		private:
-			// hoeveel tijd is verstreken sinds de laatste beweging
-			delta_time t_passed_{};
 			// weet hoe de koe getekend moet worden
 			play::image_drawable drawable_;
 			

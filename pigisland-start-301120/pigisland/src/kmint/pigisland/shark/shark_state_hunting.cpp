@@ -74,7 +74,6 @@ namespace kmint {
 					auto& currentActor = *i;
 
 					if (typeid(currentActor).name() == typeid(pig).name()) {
-						pig& piggy = dynamic_cast<pig&>(currentActor);
 						currentActor.remove();
 					}
 				}
