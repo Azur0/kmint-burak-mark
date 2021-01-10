@@ -16,8 +16,7 @@ namespace kmint {
 		void SharkStateRoaming::onUpdate(delta_time dt)
 		{
 			// pick random edge
-			int next_index = random_int(0, actor.node().num_edges());
-			actor.node(actor.node()[next_index].to());
+			actor.node(random_adjacent_node(actor.node()));
 
 			// increase fatigue
 			actor.increaseFatigue();

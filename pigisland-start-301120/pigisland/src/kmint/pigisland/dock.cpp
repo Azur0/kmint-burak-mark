@@ -6,7 +6,7 @@
 namespace kmint {
 	namespace pigisland {
 
-		Dock::Dock(play::stage& s, map::map_graph& g, map::map_node& initial_node, int minimumHeal, int maximumHeal) : play::map_bound_actor{ initial_node }, drawable_{ *this, graphics::image{boat_image()} }, minHeal(minimumHeal), maxHeal(maximumHeal), stage(s) {}
+		Dock::Dock(play::stage& s, map::map_graph& g, map::map_node& initial_node, int minimumHeal, int maximumHeal) : play::map_bound_actor{ initial_node }, drawable_{ *this, graphics::image{""} }, minHeal(minimumHeal), maxHeal(maximumHeal), stage(s) {}
 
 		void Dock::act(delta_time dt)
 		{

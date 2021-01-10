@@ -14,7 +14,7 @@ double waiting_time(map::map_node const &node);
 ///
 /// Finds a random node adjacent to argument node
 ///
-map::map_node const &random_adjacent_node(map::map_node const &node);
+map::map_node &random_adjacent_node(map::map_node &node);
 
 ///
 /// Finds a node of a given kind (which is the character by which it is
@@ -50,8 +50,15 @@ map::map_node const &find_shark_resting_place(map::map_graph const &graph);
 map::map_node const &find_closest_node_to(map::map_graph const &graph,
                                           math::vector2d location);
 
-map::map_node& find_without_const_closest_node_to(map::map_graph& graph,
-											math::vector2d location);
+///
+/// Finds the closest node to a location
+///
+map::map_node& find_without_const_closest_node_to(map::map_graph& graph, math::vector2d location);
+
+///
+/// Check if node exists at location
+///
+bool const& node_exists_at(map::map_graph const& graph, math::vector2d location);
 } // namespace pigisland
 } // namespace kmint
 

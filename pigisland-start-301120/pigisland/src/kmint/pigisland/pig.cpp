@@ -1,6 +1,7 @@
 #include "kmint/pigisland/pig.hpp"
 #include "kmint/pigisland/resources.hpp"
 #include "kmint/random.hpp"
+#include "kmint/pigisland/node_algorithm.hpp"
 
 namespace kmint {
 namespace pigisland {
@@ -20,6 +21,24 @@ namespace pigisland {
 
     void pig::act(delta_time dt) 
 	{
+		math::vector2d current_location = location();
+		math::vector2d current_heading = heading();
+		math::vector2d current_velocity = velocity();
+
+		//if (current_location.x() + 16 < 0) {
+		//	heading().x(std::abs(heading().x()));
+		//}
+		//else if (current_location.x() + 16 > 1024) {
+		//	heading().x(-std::abs(heading().x()));
+		//}
+
+		if (current_location.y() + current_velocity.y() - 16 < 0) {
+			heading(perp(current_heading));
+		}
+		else if (current_location.y() + current_velocity.y() + 16 > 768) {
+			heading(perp(current_heading));
+		}
+
 		flock_attributes flock = flocking();
 		math::vector2d steering_force = flock.calculate();
 		math::vector2d acceleration = steering_force / mass_;
@@ -28,32 +47,16 @@ namespace pigisland {
 		////TODO: if colliding with do nothing
 		////TODO: set heading to random edge of nearest node
 
-		math::vector2d new_velocity = velocity() + (acceleration * to_seconds(dt));
+		math::vector2d new_velocity = current_velocity + (acceleration * to_seconds(dt));
 		math::vector2d truncated_velocity = truncate(new_velocity, max_force_ * to_seconds(dt));
-		velocity(truncated_velocity);
 
-		math::vector2d new_loc = location() + (velocity());
-
-		if (new_loc.x() < 0) {
-			new_loc.x(1024);
-		}
-		else if(new_loc.x() > 1024) {
-			new_loc.x(0);
-		}
-
-		if (new_loc.y() < 0) {
-			new_loc.y(768);
-		}
-		else if (new_loc.y() > 768) {
-			new_loc.y(0);
-		}
-		location(new_loc);
-
-		if (norm(velocity()) > 0.00000001)
+		if (norm(truncated_velocity) > 0.00000001)
 		{
 			heading(normalize(velocity()));
 			//m_vSide = m_vHeading.Perp();
 		}
+		location(current_location + truncated_velocity);
+		velocity(truncated_velocity);
     }
 
 	flock_attributes pig::flocking() {

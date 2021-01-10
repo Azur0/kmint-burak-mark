@@ -17,7 +17,7 @@ namespace kmint {
 			void heading(math::vector2d heading) { heading_ = heading; }
 
 			void velocity(math::vector2d velocity) { velocity_ = velocity; }
-			const math::vector2d velocity() { return velocity_; }
+			math::vector2d velocity() { return velocity_; }
 
 			math::vector2d initialVelocity() const;
 		private:

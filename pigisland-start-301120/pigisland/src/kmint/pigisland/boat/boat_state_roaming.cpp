@@ -1,6 +1,7 @@
 #include "kmint/pigisland/boat/boat_state_roaming.hpp"
 #include "kmint/pigisland/boat/boat_state_docking.hpp"
 #include "kmint/random.hpp"
+#include "kmint/pigisland/node_algorithm.hpp"
 
 namespace kmint {
 	namespace pigisland {
@@ -13,8 +14,7 @@ namespace kmint {
 		void BoatStateRoaming::onUpdate(delta_time dt)
 		{
 			// pick random edge
-			int next_index = random_int(0, actor.node().num_edges());
-			actor.node(actor.node()[next_index].to());
+			actor.node(random_adjacent_node(actor.node()));
 
 			// increase damage
 			actor.increaseDamage();
