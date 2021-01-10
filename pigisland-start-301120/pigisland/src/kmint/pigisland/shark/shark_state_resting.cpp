@@ -30,6 +30,7 @@ namespace kmint {
 
 		void SharkStateResting::onUpdate(delta_time dt)
 		{
+			t_passed_ += dt;
 			// Shark resting mechanic
 			if(actor.isRested() == true)
 			{
@@ -37,10 +38,11 @@ namespace kmint {
 				for (std::unique_ptr<pig>* piggy : pigs) {
 					piggy->get()->remove();
 				}
+
 				// spawn new pigs
 				auto locs = random_pig_locations(100);
 				for (auto loc : locs) {
-					actor.stage.build_actor<pig>(loc);
+					auto& act = actor.stage.queue_build_actor<pig>(loc);
 				}
 
 				std::unique_ptr<SharkStateRoaming> state = std::make_unique<SharkStateRoaming>(this->context, actor);
@@ -48,13 +50,16 @@ namespace kmint {
 				return;
 			}
 
-			// Shark moving mechanic
-			if (path_index < path.size()) {
-				actor.node().tag(graph::node_tag::normal);
-				map::map_node& node = *path.at(path_index);
-				actor.node(node);
-				path_index++;
-				return;
+			if (to_seconds(t_passed_) >= waiting_time(actor.node()))
+			{
+				// Shark moving mechanic
+				if (path_index < path.size()) {
+					actor.node().tag(graph::node_tag::normal);
+					map::map_node& node = *path.at(path_index);
+					actor.node(node);
+					path_index++;
+				}
+				t_passed_ = from_seconds(0);
 			}
 		}
 

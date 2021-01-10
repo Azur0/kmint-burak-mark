@@ -18,11 +18,20 @@ namespace kmint {
 
 		void SharkStateRoaming::onUpdate(delta_time dt)
 		{
-			// pick random edge
-			actor.node(random_adjacent_node(actor.node()));
+			t_passed_ += dt;
 
-			// increase fatigue
-			actor.increaseFatigue();
+			if (to_seconds(t_passed_) >= waiting_time(actor.node()))
+			{
+				// pick random edge
+				actor.node(random_adjacent_node(actor.node()));
+
+				// increase fatigue
+				actor.increaseFatigue();
+
+				t_passed_ = from_seconds(0);
+				return;
+			}
+
 
 			// Shark resting mechanic
 			if (actor.getFatigue() >= 100)

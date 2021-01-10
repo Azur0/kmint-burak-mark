@@ -8,6 +8,7 @@
 #include "kmint/pigisland/boat.hpp"
 #include "kmint/pigisland/shark/shark_state_fleeing.hpp"
 #include "kmint/pigisland/shark/shark_state_resting.hpp"
+#include "kmint/pigisland/node_algorithm.hpp"
 
 namespace kmint {
 	namespace pigisland {
@@ -28,10 +29,26 @@ namespace kmint {
 		}
 
 		void SharkStateHunting::onUpdate(delta_time dt)
-		{
-			// increase fatigue
-			actor.increaseFatigue();
-			
+		{		
+			t_passed_ += dt;
+
+			if (to_seconds(t_passed_) >= waiting_time(actor.node()))
+			{
+				// Shark moving mechanic
+				if (path_index < path.size()) {
+					actor.node().tag(graph::node_tag::normal);
+					map::map_node& node = *path.at(path_index);
+					actor.node(node);
+					path_index++;
+
+					// increase fatigue
+					actor.increaseFatigue();
+					t_passed_ = from_seconds(0);
+					return;
+				}
+				t_passed_ = from_seconds(0);
+			}
+
 			if (actor.getFatigue() >= 100)
 			{
 				std::unique_ptr<SharkStateResting> state = std::make_unique<SharkStateResting>(this->context, actor);
@@ -56,16 +73,7 @@ namespace kmint {
 					}
 				}
 			}
-			
-			// Shark moving mechanic
-			if (path_index < path.size()) {
-				actor.node().tag(graph::node_tag::normal);
-				map::map_node& node = *path.at(path_index);
-				actor.node(node);
-				path_index++;
 
-				return;
-			}
 
 			if (path_index == path.size())
 			{

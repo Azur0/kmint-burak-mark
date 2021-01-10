@@ -71,6 +71,32 @@ public:
   }
 
   /*!
+    \brief Constructs an actor.
+
+    This is the only way to create an actor that is to be used on stage. This
+    member function accepts an arbitrary number of parameters that are forwarded
+    to the actor's constructor.
+
+    \tparam T The class of the actor. Must be the type of a concrete subclass of
+    actor.
+    \return A reference to the newly created actor. This reference is valid
+    until the actor is removed from play (via \ref actor::remove or \ref
+    stage::remove_actor) or the stage lifetime ends.
+   */
+  template <typename T, typename... Args>
+  T &queue_build_actor(Args &&... constructor_arguments) {
+    static_assert(std::is_convertible<T *, actor *>::value,
+                  "This function can only construct"
+                  " concrete subclasses of actor");
+    static_assert(std::is_constructible<T, Args...>::value,
+                  "The requested type cannot be constructed from"
+                  " the arguments provided.");
+    actors_queue_.push_back(
+        std::make_unique<T>(std::forward<Args>(constructor_arguments)...));
+    return *(static_cast<T *>(actors_.back().get()));
+  }
+
+  /*!
     \brief Removes an actor from play.
 
     This function removes the actor from the list of actors on stage. As the
@@ -135,6 +161,7 @@ private:
   std::optional<quad_tree<4>> m_quad_tree_;
 
   container actors_{};
+  container actors_queue_{};
   bool acting_{};
 };
 } // namespace play

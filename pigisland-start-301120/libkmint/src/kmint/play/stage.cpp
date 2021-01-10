@@ -69,6 +69,12 @@ void stage::act(delta_time dt) {
   acting_ = true;
   finally f{[&] { acting_ = false; }};
 
+  auto iter = actors_queue_.begin();
+  while (iter != actors_queue_.end()) 
+  {
+    actors_.emplace_back(std::move(*iter));
+    iter = actors_queue_.erase(iter);
+  }
   check_interactions();
 
   for (actor &a : *this) {

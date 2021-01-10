@@ -18,13 +18,7 @@ namespace kmint {
 
 		void shark::act(delta_time dt)
 		{
-			t_passed_ += dt;
-			
-			if (to_seconds(t_passed_) >= waiting_time(this->node()))
-			{
-				stateContext.onUpdate(dt);
-				t_passed_ = from_seconds(0);
-			}
+			stateContext.onUpdate(dt);
 		}
 
 	} // namespace pigisland
