@@ -16,25 +16,21 @@ struct flock_attributes {
 	float f_cohesion_ = 1.0f;
 	float f_separation_ = 1.0f;
 	float f_alignment_ = 1.0f;
+	float f_collision_ = 10.0f;
 
 	math::vector2d attraction_k_;
 	math::vector2d attraction_pv_;
 	math::vector2d cohesion_;
 	math::vector2d alignment_;
 	math::vector2d separation_;
+	math::vector2d collision_;
 
 	flock_attributes() {
-		//f_attraction_k_ = random_scalar(-1.0f, 1.0f);
-		//f_attraction_pv_ = random_scalar(-1.0f, 1.0f);
-		//f_cohesion_ = random_scalar(-1.0f, 1.0f);
-		//f_separation_ = random_scalar(-1.0f, 1.0f);
-		//f_alignment_ = random_scalar(-1.0f, 1.0f);
-
-		f_attraction_k_ = 1.0f;
-		f_attraction_pv_ = 1.0f;
-		f_cohesion_ = 1.0f;
-		f_separation_ = 1.0f;	// TODO: ZET DIT NAAR 10.0f als je ruimte tussen de varkens wilt
-		f_alignment_ = 1.0f;
+		f_attraction_k_ = random_scalar(-1.0f, 1.0f);
+		f_attraction_pv_ = random_scalar(-1.0f, 1.0f);
+		f_cohesion_ = random_scalar(0.0f, 1.0f);
+		f_separation_ = random_scalar(0.0f, 1.0f);
+		f_alignment_ = random_scalar(0.0f, 1.0f);
 	}
 
 	math::vector2d calculate() {
@@ -44,6 +40,7 @@ struct flock_attributes {
 		steering_force += cohesion_ * f_cohesion_;
 		steering_force += separation_ * f_separation_;
 		steering_force += alignment_ * f_alignment_;
+		steering_force += collision_ * f_collision_;
 		return steering_force;
 	}
 };
@@ -65,6 +62,7 @@ private:
 
   float perception_range_;
   math::vector2d seek(math::vector2d target_pos);
+  math::vector2d pig::flee(math::vector2d target_pos);
 };
 
 } // namespace pigisland
