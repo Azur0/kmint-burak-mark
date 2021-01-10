@@ -22,6 +22,7 @@ struct flock_attributes {
 	math::vector2d cohesion_;
 	math::vector2d alignment_;
 	math::vector2d separation_;
+	math::vector2d collision_;
 
 	flock_attributes() {
 		f_attraction_k_ = random_scalar(-1.0f, 1.0f);
@@ -38,6 +39,7 @@ struct flock_attributes {
 		steering_force += cohesion_ * f_cohesion_;
 		steering_force += separation_ * f_separation_;
 		steering_force += alignment_ * f_alignment_;
+		steering_force += collision_;
 		return steering_force;
 	}
 };
@@ -59,6 +61,7 @@ private:
 
   float perception_range_;
   math::vector2d seek(math::vector2d target_pos);
+  math::vector2d pig::flee(math::vector2d target_pos);
 };
 
 } // namespace pigisland

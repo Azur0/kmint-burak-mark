@@ -2,6 +2,7 @@
 #include "kmint/pigisland/resources.hpp"
 #include "kmint/random.hpp"
 #include "kmint/pigisland/node_algorithm.hpp"
+#include "kmint/pigisland/obstacle.hpp"
 
 namespace kmint {
 namespace pigisland {
@@ -63,14 +64,26 @@ namespace pigisland {
 		math::vector2d steering_force;			// Seperation
 		math::vector2d average_heading;			// Alignment
 		math::vector2d center_of_mass;			// Cohesion
+		math::vector2d steering_force_2_electric_boogalo;
     	
 		flock_attributes flock;
 
 		int percieved_nieghbours = 0;
+		int percieved_obstacles = 0;
 		for (auto i = begin_perceived(); i != end_perceived(); ++i) {
 			play::actor& act = *i;
-			
 
+			
+			
+			if (typeid(act).name() == typeid(Obstacle).name()) {
+				// check obstacles
+				if(distance(location(), act.location()) < 50)
+				{
+					percieved_obstacles++;
+					steering_force_2_electric_boogalo += act.location();
+				}
+			}
+			
 			// check nearby piggies
 			if (typeid(act).name() == typeid(pig).name()) {
 				pig& neighbour = dynamic_cast<pig&>(act);
@@ -93,6 +106,13 @@ namespace pigisland {
 			center_of_mass = center_of_mass / percieved_nieghbours;			// Cohesion
 			flock.cohesion_ = seek(center_of_mass);							// Cohesion
 		}
+
+		if (percieved_obstacles > 0)
+		{
+			steering_force_2_electric_boogalo = steering_force_2_electric_boogalo / percieved_obstacles;
+			flock.collision_ = flee(steering_force_2_electric_boogalo);
+		}
+    	
 		return flock;
 	}
 
@@ -102,6 +122,13 @@ namespace pigisland {
 
 		return (desired_velocity - velocity());
 	}
+
+	math::vector2d pig::flee(math::vector2d target_pos)
+    {
+		math::vector2d desired_velocity = normalize(location() - target_pos) * max_speed_;
+
+		return (desired_velocity - velocity());
+    }
 } // namespace pigisland
 
 } // namespace kmint
