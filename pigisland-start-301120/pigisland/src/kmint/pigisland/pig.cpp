@@ -3,15 +3,17 @@
 #include "kmint/random.hpp"
 #include "kmint/pigisland/node_algorithm.hpp"
 #include "kmint/pigisland/obstacle.hpp"
+#include "kmint/pigisland/boat.hpp"
+#include "kmint/pigisland/shark.hpp"
 
 namespace kmint {
 namespace pigisland {
 	pig::pig(math::vector2d location) : ForceDrivenEntity{ location }, drawable_{ *this, pig_image() }
 	{
 		perception_range_ = 70.0f;
-		mass_ = 0.25f;
-		max_force_ = 5.0f;
-		max_speed_ = 1.0f;
+		mass_ = 40.0f;
+		max_force_ = 100.0f;
+		max_speed_ = 5.0f;
 		math::vector2d v(random_scalar(-100.0f, 100.0f), random_scalar(-100.0f, 100.0f));
 		v = setLength(v, 1.0f);
 		velocity(v);
@@ -34,6 +36,7 @@ namespace pigisland {
 		{
 			heading(normalize(velocity()));
 		}
+
 		location(current_location + truncated_velocity);
 		velocity(truncated_velocity);
     }
@@ -42,19 +45,29 @@ namespace pigisland {
 		math::vector2d steering_force;			// Seperation
 		math::vector2d average_heading;			// Alignment
 		math::vector2d center_of_mass;			// Cohesion
-		math::vector2d steering_force_2_electric_boogalo;
+		math::vector2d steering_force_2_electric_boogalo; // steer force within map
+		math::vector2d attraction_force_k;		// knabbel
+		math::vector2d attraction_force_pv;		// porcus vincit
     	
 		flock_attributes flock;
 
 		int percieved_nieghbours = 0;
 		int percieved_obstacles = 0;
+
 		for (auto i = begin_perceived(); i != end_perceived(); ++i) {
 			play::actor& act = *i;
-
 			
+			if (typeid(act).name() == typeid(boat).name()) {
+				flock.attraction_pv_ = seek(act.location()); // attraction porcus vinit
+			}
+
+			if (typeid(act).name() == typeid(shark).name()) {
+				flock.attraction_k_ = seek(act.location()); // attraction knabbel
+			}
+
 			if (typeid(act).name() == typeid(Obstacle).name()) {
 				// check obstacles
-				if(distance(location(), act.location()) < 75)
+				if(distance(location(), act.location()) < 60)
 				{
 					percieved_obstacles++;
 					steering_force_2_electric_boogalo += act.location();

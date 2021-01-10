@@ -34,6 +34,7 @@ namespace kmint {
 			// Shark resting mechanic
 			if(actor.isRested() == true)
 			{
+				// remove all pigs
 				std::vector<std::unique_ptr<pig>*> pigs = actor.stage.getActors<pig>();
 				for (std::unique_ptr<pig>* piggy : pigs) {
 					piggy->get()->remove();

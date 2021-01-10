@@ -16,7 +16,7 @@ struct flock_attributes {
 	float f_cohesion_ = 1.0f;
 	float f_separation_ = 1.0f;
 	float f_alignment_ = 1.0f;
-	float f_collision_ = 1.0f;
+	float f_collision_ = 10.0f;
 
 	math::vector2d attraction_k_;
 	math::vector2d attraction_pv_;
@@ -31,7 +31,6 @@ struct flock_attributes {
 		f_cohesion_ = random_scalar(0.0f, 1.0f);
 		f_separation_ = random_scalar(0.0f, 1.0f);
 		f_alignment_ = random_scalar(0.0f, 1.0f);
-		f_collision_ = 7.5f;
 	}
 
 	math::vector2d calculate() {
